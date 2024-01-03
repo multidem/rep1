@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+
+
+        body {
+            margin: 50px auto;
+            width: 1000px 
+        }
+
+        #picturesHere {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+                }
+                
+        #bigPicture { margin-top: 15px }
+
+        #bigPicture p {
+            font-size: 18pt;
+            text-align: center;
+            color: #333
+        }
+     
+        img { cursor: pointer}
+
+</style>
+
+</head>
+<body>
+    
+<section id="picturesHere"></section>
+
+
+<section id="bigPicture"></section>
+
+    <script>
+    
+    let gallery = [
+        {fname: ['red.jpg','red1.jpg','red2.jpg'], sw: '300', descr: 'Красный костел', lnk: 'https://msj.by/katolicheskie-xramy/krasnyj-kostel-v-minske/', tit: 'В храме святого Симеона и святой Елены находится полномасштабная копия Туринской Плащаницы.'},
+        {fname: ['troi.jpg','troi1.jpg','troi2.jpg'], sw: '300', descr: 'Троицкое предместье', lnk: 'https://www.belarus.by/ru/travel/belarus-life/trinity-suburb', tit: 'Троицкое предместье — исторический район города Минска, расположенный в северо-восточной части исторического центра на левом берегу реки Свислочь.'},
+        {fname: ['mir.jpg','mir1.jpg','mir2.jpg'], sw: '300', descr: 'Мирский замок', lnk: 'https://mirzamak.by/', tit: 'Построенный в начале XVI в. магнатом Ю. И. Ильиничем замок стал первым частнособственническим замком на землях Белоруссии'}
+    ]
+
+    drawPic();
+function drawPic() {
+
+s='';
+for (i=0; i<gallery.length; i++) {
+
+    s+=`<div><div id="id${i}"><img src="im/${gallery[i].fname[0]}" width="${gallery[i].sw}" onmouseover="timerId=setTimeout('roll(${i})',1000);" onmouseout="clearTimeout(timerId)" onclick="showPic('${gallery[i].fname[0]}','${gallery[i].tit}')"><p><a href='${gallery[i].lnk}' target='_blank'>${gallery[i].descr}</a></p></div></div>`
+
+}
+picturesHere.innerHTML = s
+mkTitle();
+}
+
+let p = 2;
+let k = 0;
+function roll(n) {
+
+    if(++k>p)k=0;
+
+    mid = document.getElementById(`id${n}`);
+    mid.innerHTML = `<div><img src="im/${gallery[n].fname[k]}" width="${gallery[n].sw}" onmouseout="stop()" onclick="showPic('${gallery[n].fname[k]}','${gallery[n].tit}')"><p><a href='${gallery[n].lnk}' target='_blank'>${gallery[n].descr}</a></p></div>`;
+    mkTitle();
+    timerId=setTimeout(`roll(${n})`,2000);
+    
+}
+
+function stop() {
+    clearTimeout(timerId);
+    drawPic(); 
+}
+
+
+function showPic(p,t) {
+    bigPicture.innerHTML = `<img src="im/${p}" width="1000" onclick="bigPicture.innerHTML =''"><p>${t}</p>`
+}
+
+function mkTitle() { 
+f = document.getElementById('picturesHere')      
+d = f.getElementsByTagName('p')
+d1 = f.getElementsByTagName('a')  
+
+for (j=0; j<d.length; j++)  {
+    d[j].style.fontSize = '18pt'
+    d[j].style.textAlign = 'center'
+    d1[j].style.textDecoration = 'none'
+    d1[j].style.color = 'blue'
+                  }
+
+    }
+    </script>
+
+
+</body>
+</html>
